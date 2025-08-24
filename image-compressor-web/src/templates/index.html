@@ -1,0 +1,87 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Compressor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h1 class="mb-4">Upload an Image to Compress</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <input class="form-control mb-3" type="file" name="image" required>
+        <button class="btn btn-primary">Upload & Compress</button>
+    </form>
+</div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Compressor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(to right, #f8f9fa, #e9ecef); }
+        .card { border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .btn-primary { background: #0d6efd; border: none; padding: 10px 25px; font-weight: 500; }
+        .btn-primary:hover { background: #0b5ed7; }
+        .file-input { border: 2px dashed #ced4da; border-radius: 10px; padding: 30px; text-align: center; cursor: pointer; transition: border-color 0.3s; }
+        .file-input:hover { border-color: #0d6efd; }
+        .file-input input { display: none; }
+        .file-input label { cursor: pointer; font-weight: 500; color: #495057; }
+    </style>
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-5 w-100" style="max-width: 500px;">
+        <h2 class="mb-4 text-center">Image Compressor</h2>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            <div class="file-input mb-3">
+                <input type="file" name="image" id="fileInput" accept="image/*" required>
+                <label for="fileInput">Click or Drag & Drop to Upload Image</label>
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-primary" type="submit">Upload & Compress</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // Optional: drag & drop highlight
+    const fileInputDiv = document.querySelector('.file-input');
+    const fileInput = document.getElementById('fileInput');
+    const fileLabel = fileInputDiv.querySelector('label');
+
+    fileInputDiv.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileInputDiv.style.borderColor = '#0d6efd';
+    });
+    fileInputDiv.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        fileInputDiv.style.borderColor = '#ced4da';
+    });
+    fileInputDiv.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileInput.files = e.dataTransfer.files;
+        updateLabel();
+    });
+
+    fileInput.addEventListener('change', updateLabel);
+
+    function updateLabel() {
+        if (fileInput.files.length > 0) {
+            fileLabel.textContent = fileInput.files[0].name;
+        } else {
+            fileLabel.textContent = "Click or Drag & Drop to Upload Image";
+        }
+    }
+</script>
+</body>
+</html>
