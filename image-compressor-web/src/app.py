@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, send_from_directory, url_for,
 from PIL import Image
 from werkzeug.utils import secure_filename
 import os, uuid, base64
+from ml_compression import enhance_image  # Add this import
 
 app = Flask(__name__)
 
@@ -21,7 +22,10 @@ def unique_filename(filename):
 
 def compress_image(input_path, output_path, max_size_mb=1, max_dimension=2048):
     try:
-        img = Image.open(input_path)
+        # First, enhance image using ML
+        enhanced_path = input_path.replace(".", "_enhanced.")
+        enhance_image(input_path, enhanced_path)
+        img = Image.open(enhanced_path)
         img.thumbnail((max_dimension, max_dimension))
         if img.mode in ("RGBA", "P"):
             img = img.convert("RGB")
